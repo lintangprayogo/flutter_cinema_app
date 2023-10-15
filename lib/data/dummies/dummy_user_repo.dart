@@ -30,21 +30,21 @@ class DummyUserRepo implements UserRepo {
   }
 
   @override
-  Future<Result<User>> updateUser({required user}) {
+  Future<Result<User>> updateUser({required User user}) {
     // TODO: implement updateUser
     throw UnimplementedError();
   }
 
   @override
   Future<Result<User>> updateUserBalance(
-      {required user, required int balance}) {
+      {required String uid, required int balance}) {
     // TODO: implement updateUserBalance
     throw UnimplementedError();
   }
 
   @override
   Future<Result<User>> uploadUserPhoto(
-      {required user, required File imageFile}) {
+      {required User user, required File imageFile}) {
     // TODO: implement uploadUserPhoto
     throw UnimplementedError();
   }

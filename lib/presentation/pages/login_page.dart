@@ -1,4 +1,3 @@
-
 import 'package:cinema_app/domain/entities/result.dart';
 import 'package:cinema_app/domain/usecases/login/login_params.dart';
 import 'package:cinema_app/presentation/pages/main_page.dart';
