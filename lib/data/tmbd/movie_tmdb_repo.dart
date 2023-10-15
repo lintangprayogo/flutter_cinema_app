@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 class MovieTmdbRepo implements MovieRepo {
   MovieTmdbRepo({Dio? dio}) : _dio = dio ?? Dio();
 
-  final BASE_URL = "https://api.themoviedb.org/3/movie/";
+  static const _basUrl = "https://api.themoviedb.org/3/movie/";
 
   final _accessToken =
       "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODg5Yjc2MTY1NzRkYzczNTVhMzI4ZWJmNWNkZTdlMyIsInN1YiI6IjVkMzU3ODIxYmVmYjA5MDAxMGI5MjJjNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jXrGdDXq5_Z1dENIntyWBx_YbWaNsPOC-8rZu9YKJuA";
@@ -22,7 +22,7 @@ class MovieTmdbRepo implements MovieRepo {
   @override
   Future<Result<List<Actor>>> getActors({required String id}) async {
     try {
-      final response = await _dio!.get("$BASE_URL$id/credits?language=en-US");
+      final response = await _dio!.get("$_basUrl$id/credits?language=en-US");
       final result = List<Map<String, dynamic>>.from(response.data['cast']);
       return Success(result.map((e) => Actor.fromJSON(e)).toList());
     } on DioException catch (e) {
@@ -34,7 +34,7 @@ class MovieTmdbRepo implements MovieRepo {
   Future<Result<MovieDetail>> getDetail({required String id}) async {
     try {
       final response =
-          await _dio!.get("$BASE_URL$id?language=en-US", options: _options);
+          await _dio!.get("$_basUrl$id?language=en-US", options: _options);
       if (response.statusCode == 200) {
         return Success(MovieDetail.fromJSON(response.data));
       } else {
@@ -59,7 +59,7 @@ class MovieTmdbRepo implements MovieRepo {
       {int page = 1}) async {
     try {
       final response = await _dio!.get(
-          "$BASE_URL$category?language=en-US&page=$page",
+          "$_basUrl$category?language=en-US&page=$page",
           options: _options);
 
       final results = List<Map<String, dynamic>>.from(response.data["results"]);

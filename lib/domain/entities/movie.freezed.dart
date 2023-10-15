@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Movie {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get posterPath => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
 
@@ -29,7 +29,7 @@ abstract class $MovieCopyWith<$Res> {
   factory $MovieCopyWith(Movie value, $Res Function(Movie) then) =
       _$MovieCopyWithImpl<$Res, Movie>;
   @useResult
-  $Res call({int id, String posterPath, String title});
+  $Res call({String id, String posterPath, String title});
 }
 
 /// @nodoc
@@ -53,7 +53,7 @@ class _$MovieCopyWithImpl<$Res, $Val extends Movie>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       posterPath: null == posterPath
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
@@ -73,7 +73,7 @@ abstract class _$$MoviesImplCopyWith<$Res> implements $MovieCopyWith<$Res> {
       __$$MoviesImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String posterPath, String title});
+  $Res call({String id, String posterPath, String title});
 }
 
 /// @nodoc
@@ -95,7 +95,7 @@ class __$$MoviesImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       posterPath: null == posterPath
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
@@ -115,7 +115,7 @@ class _$MoviesImpl implements _Movies {
       {required this.id, required this.posterPath, required this.title});
 
   @override
-  final int id;
+  final String id;
   @override
   final String posterPath;
   @override
@@ -149,12 +149,12 @@ class _$MoviesImpl implements _Movies {
 
 abstract class _Movies implements Movie {
   const factory _Movies(
-      {required final int id,
+      {required final String id,
       required final String posterPath,
       required final String title}) = _$MoviesImpl;
 
   @override
-  int get id;
+  String get id;
   @override
   String get posterPath;
   @override

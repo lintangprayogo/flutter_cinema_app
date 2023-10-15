@@ -4,7 +4,7 @@ part 'movie.freezed.dart';
 @freezed
 class Movie with _$Movie {
   const factory Movie(
-      {required int id,
+      {required String id,
       required String posterPath,
       required String title}) = _Movies;
 
