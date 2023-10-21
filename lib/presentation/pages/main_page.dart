@@ -1,3 +1,4 @@
+import 'package:cinema_app/presentation/extensions/build_extensions.dart';
 import 'package:cinema_app/presentation/providers/router/router_provider.dart';
 import 'package:cinema_app/presentation/providers/usecase/user_data/user_data_provider.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class _MainPageState extends ConsumerState<MainPage> {
       (previous, next) {
         if (previous != null && next is AsyncData && next.value == null) {
           ref.read(routerProvider).goNamed('login');
+        } else if (next is AsyncError) {
+          context.showSnackBar(next.error.toString());
         }
       },
     );
