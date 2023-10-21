@@ -9,5 +9,5 @@ class Movie with _$Movie {
       required String title}) = _Movies;
 
   factory Movie.fromJSON(Map<String, dynamic> json) => Movie(
-      id: json["id"], title: json["title"], posterPath: json["poster_path"]);
+      id: json["id"].toString(), title: json["title"], posterPath: json["poster_path"]);
 }

@@ -10,7 +10,7 @@ class FirebaseTransactionRepo implements TransactionRepo {
   final fire_store.FirebaseFirestore _firebaseFirestore;
 
   FirebaseTransactionRepo(
-      {required fire_store.FirebaseFirestore? firebaseFirestore})
+      {fire_store.FirebaseFirestore? firebaseFirestore})
       : _firebaseFirestore =
             firebaseFirestore ?? fire_store.FirebaseFirestore.instance;
 

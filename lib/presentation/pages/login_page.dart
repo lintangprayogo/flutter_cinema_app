@@ -1,7 +1,5 @@
-import 'package:cinema_app/domain/entities/result.dart';
-import 'package:cinema_app/domain/usecases/login/login_params.dart';
-import 'package:cinema_app/presentation/pages/main_page.dart';
-import 'package:cinema_app/presentation/providers/usecase/login_provider.dart';
+import 'package:cinema_app/presentation/providers/router/router_provider.dart';
+import 'package:cinema_app/presentation/providers/usecase/user_data/user_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +8,18 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(
+      userDataProvider,
+      (previous, next) {
+        if (next.value != null) {
+          ref.read(routerProvider).goNamed("main");
+        }
+        if (next is AsyncError) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(next.error.toString())));
+        }
+      },
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
@@ -18,27 +28,9 @@ class LoginPage extends ConsumerWidget {
         child: ElevatedButton(
           child: const Text("Login"),
           onPressed: () {
-            final login = ref.watch(loginProvider);
-
-            login
-                .call(const LoginParams(
-                    email: "lintang@cpssoft.com", password: "12345678"))
-                .then(
-              (result) {
-                if (result is Success) {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MainPage(user: result.resultValue!),
-                      ),
-                      (route) => false);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(result.errorMessage ?? "Unknown Error")));
-                }
-              },
-            );
+            ref
+                .read(userDataProvider.notifier)
+                .login(email: "lintang@cpssoft.com", password: "12345678");
           },
         ),
       ),

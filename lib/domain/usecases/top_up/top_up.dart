@@ -6,10 +6,10 @@ import 'package:cinema_app/domain/usecases/create_transaction/create_transaction
 import 'package:cinema_app/domain/usecases/top_up/top_up_param.dart';
 import 'package:cinema_app/domain/usecases/usecase.dart';
 
-class TopUpDart implements UseCase<Result<Transaction>, TopUpParam> {
+class TopUp implements UseCase<Result<Transaction>, TopUpParam> {
   final TransactionRepo _transactionRepo;
 
-  TopUpDart({required TransactionRepo transactionRepo})
+  TopUp({required TransactionRepo transactionRepo})
       : _transactionRepo = transactionRepo;
 
   @override
