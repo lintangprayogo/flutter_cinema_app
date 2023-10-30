@@ -1,6 +1,10 @@
 import 'package:cinema_app/presentation/extensions/build_extensions.dart';
+import 'package:cinema_app/presentation/pages/movie/movie_page.dart';
+import 'package:cinema_app/presentation/pages/profile_page.dart';
 import 'package:cinema_app/presentation/providers/router/router_provider.dart';
 import 'package:cinema_app/presentation/providers/usecase/user_data/user_data_provider.dart';
+import 'package:cinema_app/presentation/widgets/bottom_nav_bar.dart';
+import 'package:cinema_app/presentation/widgets/bottom_nav_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,6 +16,9 @@ class MainPage extends ConsumerStatefulWidget {
 }
 
 class _MainPageState extends ConsumerState<MainPage> {
+  PageController pageController = PageController();
+  int selectedPage = 0;
+
   @override
   Widget build(BuildContext context) {
     ref.listen(
@@ -25,22 +32,48 @@ class _MainPageState extends ConsumerState<MainPage> {
       },
     );
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Main Page"),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
         children: [
-          Text(ref.read(userDataProvider).when(
-                data: (data) => data.toString(),
-                error: (error, stackTrace) => '',
-                loading: () => "Loading",
-              )),
-          ElevatedButton(
-              onPressed: () {
-                ref.read(userDataProvider.notifier).logout();
-              },
-              child: const Text("Logout"))
+          PageView(
+            controller: pageController,
+            onPageChanged: (value) => setState(() {
+              selectedPage = value;
+            }),
+            children: const [
+              MoviePage(),
+              Center(child: Text("Ticket")),
+              ProfilePage()
+            ],
+          ),
+          BottomNavBar(
+            items: [
+              BottomNavBarItem(
+                  index: 0,
+                  isSelected: selectedPage == 0,
+                  title: "Home",
+                  image: "assets/movie.png",
+                  selectedImage: "assets/movie-selected.png"),
+              BottomNavBarItem(
+                  index: 1,
+                  isSelected: selectedPage == 1,
+                  title: "Ticket",
+                  image: "assets/ticket.png",
+                  selectedImage: "assets/ticket-selected.png"),
+              BottomNavBarItem(
+                  index: 2,
+                  isSelected: selectedPage == 2,
+                  title: "Profile",
+                  image: "assets/profile.png",
+                  selectedImage: "assets/profile-selected.png")
+            ],
+            selectedIndex: selectedPage,
+            onTap: (index) {
+              selectedPage = index;
+              pageController.animateToPage(selectedPage,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut);
+            },
+          )
         ],
       ),
     );

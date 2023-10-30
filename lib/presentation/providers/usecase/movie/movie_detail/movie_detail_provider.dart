@@ -1,3 +1,4 @@
+import 'package:cinema_app/domain/entities/movie.dart';
 import 'package:cinema_app/domain/entities/movie_detail.dart';
 import 'package:cinema_app/domain/entities/result.dart';
 import 'package:cinema_app/domain/usecases/get_movie_detail/get_movie_detail.dart';
@@ -8,11 +9,11 @@ part 'movie_detail_provider.g.dart';
 
 @riverpod
 Future<MovieDetail?> movieDetail(MovieDetailRef ref,
-    {required GetMovieDetailParam params}) async {
+    {required Movie movie}) async {
   GetMovieDetail getMovieDetail =
       GetMovieDetail(movieRepo: ref.read(movieRepoProvider));
 
-  final result = await getMovieDetail.call(params);
+  final result = await getMovieDetail.call(GetMovieDetailParam(movie: movie));
   switch (result) {
     case Success(value: final movie):
       return movie;

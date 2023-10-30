@@ -12,11 +12,11 @@ import 'package:cinema_app/domain/usecases/top_up/top_up.dart';
 import 'package:cinema_app/domain/usecases/top_up/top_up_param.dart';
 import 'package:cinema_app/domain/usecases/upload_photo/upload_photo.dart';
 import 'package:cinema_app/domain/usecases/upload_photo/upload_photo_param.dart';
+import 'package:cinema_app/presentation/providers/movie/now_playing/now_playing_provider.dart';
+import 'package:cinema_app/presentation/providers/movie/upcoming/upcoming_provider.dart';
 import 'package:cinema_app/presentation/providers/usecase/get_login_users/get_login_users_provider.dart';
 import 'package:cinema_app/presentation/providers/usecase/login/login_provider.dart';
 import 'package:cinema_app/presentation/providers/usecase/logout/logout_prodiver.dart';
-import 'package:cinema_app/presentation/providers/usecase/movie/now_playing/now_playing_provider.dart';
-import 'package:cinema_app/presentation/providers/usecase/movie/upcoming/upcoming_provider.dart';
 import 'package:cinema_app/presentation/providers/usecase/register/register_provider.dart';
 import 'package:cinema_app/presentation/providers/usecase/top_up/top_up_provider.dart';
 import 'package:cinema_app/presentation/providers/usecase/transaction/transaction_data_provider.dart';
@@ -33,6 +33,7 @@ class UserData extends _$UserData {
     final result = await getLoginUser.call(null);
     switch (result) {
       case Success(value: final user):
+        _getMovies();
         return user;
       case Failed(errorMessage: _):
         return null;
@@ -51,12 +52,12 @@ class UserData extends _$UserData {
         _getMovies();
         state = AsyncData(user);
       case Failed(errorMessage: final msg):
-        state = AsyncError(FlutterError(msg!), StackTrace.current);
+        state = AsyncError(
+            FlutterError(msg ?? "unknown error"), StackTrace.current);
     }
   }
 
   Future<void> register({
-    required String uid,
     required String email,
     required String name,
     required String password,
@@ -65,15 +66,17 @@ class UserData extends _$UserData {
     state = const AsyncLoading();
 
     Register register = ref.read(registerProvider);
-    final result = await register.call(RegisterParam(
+
+    var result = await register(RegisterParam(
         email: email, name: name, password: password, photoUrl: photo));
 
     switch (result) {
       case Success(value: final user):
         _getMovies();
         state = AsyncData(user);
-      case Failed(errorMessage: final msg):
-        state = AsyncError(FlutterError(msg!), StackTrace.current);
+      case Failed(:final message):
+        state = AsyncError(FlutterError(message), StackTrace.current);
+        state = const AsyncData(null);
     }
   }
 

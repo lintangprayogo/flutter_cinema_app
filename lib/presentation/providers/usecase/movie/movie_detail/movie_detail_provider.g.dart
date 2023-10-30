@@ -6,7 +6,7 @@ part of 'movie_detail_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$movieDetailHash() => r'6843cddd701aaf368d94b9178da6bfcb62fa048c';
+String _$movieDetailHash() => r'ef42031ede350044bd6c4322e12b10fc7530f8bf';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -38,12 +38,26 @@ class MovieDetailFamily extends Family<AsyncValue<MovieDetail?>> {
   /// See also [movieDetail].
   const MovieDetailFamily();
 
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'movieDetailProvider';
+
   /// See also [movieDetail].
   MovieDetailProvider call({
-    required GetMovieDetailParam params,
+    required Movie movie,
   }) {
     return MovieDetailProvider(
-      params: params,
+      movie: movie,
     );
   }
 
@@ -53,34 +67,43 @@ class MovieDetailFamily extends Family<AsyncValue<MovieDetail?>> {
     covariant MovieDetailProvider provider,
   ) {
     return call(
-      params: provider.params,
+      movie: provider.movie,
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<MovieDetail?> Function(MovieDetailRef ref) create) {
+    return _$MovieDetailFamilyOverride(this, create);
+  }
+}
+
+class _$MovieDetailFamilyOverride
+    implements FamilyOverride<AsyncValue<MovieDetail?>> {
+  _$MovieDetailFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<MovieDetail?> Function(MovieDetailRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final MovieDetailFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'movieDetailProvider';
+  MovieDetailProvider getProviderOverride(
+    covariant MovieDetailProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [movieDetail].
 class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
   /// See also [movieDetail].
   MovieDetailProvider({
-    required GetMovieDetailParam params,
+    required Movie movie,
   }) : this._internal(
           (ref) => movieDetail(
             ref as MovieDetailRef,
-            params: params,
+            movie: movie,
           ),
           from: movieDetailProvider,
           name: r'movieDetailProvider',
@@ -91,24 +114,24 @@ class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
           dependencies: MovieDetailFamily._dependencies,
           allTransitiveDependencies:
               MovieDetailFamily._allTransitiveDependencies,
-          params: params,
+          movie: movie,
         );
 
   MovieDetailProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.params,
+    required this.movie,
   }) : super.internal();
 
-  final GetMovieDetailParam params;
+  final Movie movie;
 
   @override
   Override overrideWith(
-    FutureOr<MovieDetail?> Function(MovieDetailRef provider) create,
+    FutureOr<MovieDetail?> Function(MovieDetailRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -119,9 +142,16 @@ class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        params: params,
+        movie: movie,
       ),
     );
+  }
+
+  @override
+  ({
+    Movie movie,
+  }) get argument {
+    return (movie: movie,);
   }
 
   @override
@@ -129,23 +159,37 @@ class MovieDetailProvider extends AutoDisposeFutureProvider<MovieDetail?> {
     return _MovieDetailProviderElement(this);
   }
 
+  MovieDetailProvider _copyWith(
+    FutureOr<MovieDetail?> Function(MovieDetailRef ref) create,
+  ) {
+    return MovieDetailProvider._internal(
+      (ref) => create(ref as MovieDetailRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      movie: movie,
+    );
+  }
+
   @override
   bool operator ==(Object other) {
-    return other is MovieDetailProvider && other.params == params;
+    return other is MovieDetailProvider && other.movie == movie;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, params.hashCode);
+    hash = _SystemHash.combine(hash, movie.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin MovieDetailRef on AutoDisposeFutureProviderRef<MovieDetail?> {
-  /// The parameter `params` of this provider.
-  GetMovieDetailParam get params;
+  /// The parameter `movie` of this provider.
+  Movie get movie;
 }
 
 class _MovieDetailProviderElement
@@ -153,7 +197,7 @@ class _MovieDetailProviderElement
   _MovieDetailProviderElement(super.provider);
 
   @override
-  GetMovieDetailParam get params => (origin as MovieDetailProvider).params;
+  Movie get movie => (origin as MovieDetailProvider).movie;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

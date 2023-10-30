@@ -20,16 +20,21 @@ class FirebaseUserRepo implements UserRepo {
       required String name,
       String? photoUrl,
       int balance = 0}) async {
-    CollectionReference<Map<String, dynamic>> users =
-        _firebaseFirestore.collection("users");
-    final user = User(uid: uid, email: email, name: name);
-    await users.doc(uid).set(user.toJson());
+    try {
+      CollectionReference<Map<String, dynamic>> users =
+          _firebaseFirestore.collection("users");
+      final user = User(uid: uid, email: email, name: name);
+      await users.doc(uid).set(user.toJson());
 
-    DocumentSnapshot<Map<String, dynamic>> result = await users.doc(uid).get();
-    if (result.exists) {
-      return Result.success(User.fromJson(result.data()!));
-    } else {
-      return const Result.failed("Failed To Create User");
+      DocumentSnapshot<Map<String, dynamic>> result =
+          await users.doc(uid).get();
+      if (result.exists) {
+        return Result.success(User.fromJson(result.data()!));
+      } else {
+        return const Result.failed("Failed To Create User");
+      }
+    } on FirebaseException catch (e) {
+      return Result.failed(e.message ?? "Unknow Error");
     }
   }
 

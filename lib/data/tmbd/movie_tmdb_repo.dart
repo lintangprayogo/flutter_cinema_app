@@ -22,7 +22,7 @@ class MovieTmdbRepo implements MovieRepo {
   @override
   Future<Result<List<Actor>>> getActors({required String id}) async {
     try {
-      final response = await _dio!.get("$_basUrl$id/credits?language=en-US");
+      final response = await _dio!.get("$_basUrl$id/credits?language=en-US",options: _options);
       final result = List<Map<String, dynamic>>.from(response.data['cast']);
       return Success(result.map((e) => Actor.fromJSON(e)).toList());
     } on DioException catch (e) {
@@ -63,7 +63,6 @@ class MovieTmdbRepo implements MovieRepo {
           options: _options);
 
       final results = List<Map<String, dynamic>>.from(response.data["results"]);
-
       return Success(results.map((e) => Movie.fromJSON(e)).toList());
     } on DioException catch (e) {
       return Failed(e.message ?? "Unknown Error");

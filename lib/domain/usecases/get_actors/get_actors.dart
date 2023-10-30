@@ -10,6 +10,6 @@ class GetActors implements UseCase<Result<List<Actor>>, GetActorsParam> {
   GetActors({required MovieRepo movieRepo}) : _movieRepo = movieRepo;
   @override
   Future<Result<List<Actor>>> call(GetActorsParam params) async {
-    return await _movieRepo.getActors(id: params.movie.id);
+    return await _movieRepo.getActors(id: params.movieId);
   }
 }

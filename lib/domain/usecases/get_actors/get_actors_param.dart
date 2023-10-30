@@ -1,7 +1,6 @@
-import 'package:cinema_app/domain/entities/movie.dart';
 
 class GetActorsParam {
-  final Movie movie;
+  final String movieId;
 
-  GetActorsParam({required this.movie});
+  GetActorsParam({required this.movieId});
 }
